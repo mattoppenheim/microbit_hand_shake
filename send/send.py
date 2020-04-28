@@ -63,7 +63,7 @@ def leds_string2(bright, faint):
     leds_string = BRIGHT*bright + FAINT*(faint-bright) + \
         '0' * (LEDS-(bright+faint))
     leds_string = ":".join(leds_string[i:i+5]
-        for i in range(0, len(leds_string), 5))
+                           for i in range(0, len(leds_string), 5))
     leds_image = Image(leds_string + ':')
     return leds_image
 
