@@ -1,5 +1,8 @@
-''' shake detector
-v0.0 May 2017 '''
+''' Shake detector. 
+Transmits a detection to the receiver.
+https://www.seismicmatt.com/handshake/
+Matthew Oppenheim
+v1.0 May 2020 '''
 
 from microbit import *
 import radio
@@ -24,11 +27,13 @@ def average(list):
     average = sum(list)/len(list)
     return average
 
+
 def detection():
     print('*** shake detected ***')
     display.show(Image.CHESSBOARD)
     radio.send('shake')
-    sleep(500)
+    sleep(100)
+
 
 def increase_sensitivity(threshold, inc):
     display.show('+')
@@ -36,15 +41,18 @@ def increase_sensitivity(threshold, inc):
     sleep(250)
     return threshold
 
+
 def decrease_sensitivity(threshold, inc):
     display.show('-')
     threshold = limit(threshold-inc, MAX_THRESH)
     sleep(250)
     return threshold
 
+
 def initialise_list():
     list = [1] * SAMPLES
     return list
+
 
 def limit(val, limit):
     ''' limit <val> between 0 and <limit>'''
@@ -53,6 +61,7 @@ def limit(val, limit):
     if val < 0:
         val = 0
     return int(val)
+
 
 def leds_string2(bright, faint):
     ''' return led string '''
@@ -67,15 +76,18 @@ def leds_string2(bright, faint):
     leds_image = Image(leds_string + ':')
     return leds_image
 
+
 def read_file(filename):
     with open(filename, 'r') as my_file:
         read_value = my_file.read()
         return read_value
 
+
 def write_file(filename, value):
     with open(filename, 'w') as my_file:
         my_file.write(str(value))
         my_file.close()
+
 
 def main():
     acc_list = initialise_list()
@@ -88,7 +100,6 @@ def main():
         thresh = THRESHOLD
         write_file(THRESH_FILE, THRESHOLD)
         print('created threshold file with value: {}'.format(THRESHOLD))
-
     while True:
         incoming = radio.receive()
         x = accelerometer.get_x()
@@ -110,6 +121,7 @@ def main():
             write_file(THRESH_FILE, thresh)
             print('threshold: {}'.format(thresh))
         display.show(leds_string2(acc, thresh))
-        sleep(100)
+        sleep(50)
+
 
 main()

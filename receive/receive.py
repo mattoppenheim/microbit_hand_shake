@@ -23,11 +23,10 @@ def increase_sensitivity():
 
 def pause():
     ''' pause and clear display '''
-    sleep(200)
+    sleep(100)
     display.show(Image.DIAMOND)
 
 def shake_detected():
-    print('running_time: {}'.format(running_time()))
     print('shake')
     display.show(Image.CHESSBOARD)
     pause()
@@ -39,7 +38,7 @@ def main():
         if button_a.was_pressed():
             decrease_sensitivity()
         incoming = radio.receive()
-        sleep(1)
+        sleep(50)
         if incoming == 'shake':
             shake_detected()
 

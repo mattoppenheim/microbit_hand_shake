@@ -11,6 +11,6 @@ showing it in use.
 
 ### Setup instruction
 
-The manual explaining how to set up the software and hardware is in the manual
-folder.
+Instructions on how to set up the system are at:
 
+<https://www.seismicmatt.com/handshake-set-up-instructions/>
