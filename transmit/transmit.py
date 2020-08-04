@@ -1,4 +1,4 @@
-''' Shake detector. 
+''' Shake detector.
 Transmits a detection to the receiver.
 https://www.seismicmatt.com/handshake/
 Matthew Oppenheim
@@ -32,7 +32,7 @@ def detection():
     print('*** shake detected ***')
     display.show(Image.CHESSBOARD)
     radio.send('shake')
-    sleep(100)
+    sleep(200)
 
 
 def increase_sensitivity(threshold, inc):
@@ -106,7 +106,7 @@ def main():
         y = accelerometer.get_y()
         z = accelerometer.get_z()
         acc = int((x**2 + y**2 + z**2)/ACC_DIVISOR)
-        print(x, y, z, acc)
+        # print(x, y, z, acc)
         acc_list.pop(0)
         acc_list.append(acc)
         if average(acc_list) > thresh:
@@ -121,7 +121,7 @@ def main():
             write_file(THRESH_FILE, thresh)
             print('threshold: {}'.format(thresh))
         display.show(leds_string2(acc, thresh))
-        sleep(50)
+        sleep(10)
 
 
 main()

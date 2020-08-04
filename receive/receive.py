@@ -38,7 +38,7 @@ def main():
         if button_a.was_pressed():
             decrease_sensitivity()
         incoming = radio.receive()
-        sleep(50)
+        sleep(10)
         if incoming == 'shake':
             shake_detected()
 
