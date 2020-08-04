@@ -4,7 +4,9 @@
  https://www.seismicmatt.com/handshake/
  Windows only as the target software is Windows only.
  May '20 - the microbit base station is now hot pluggable.
- Aug'20 - command line options to run as admin or change keystroke. 
+ Aug'20 - command line options to change keystroke.
+ e.g. to broadcast F2 keystroke:
+ python -u base.py --keystroke="F2"
  Matthew Oppenheim 2020 '''
 
 import click
@@ -115,7 +117,6 @@ def target_admin_sware(software=ADMIN_SOFTWARE):
                 logging.info('found software requiring Administrator mode {}'
                     .format(title))
                 return True
-    logging.info('no software found that requires elevation to Administrator ')
     return False
 
 
@@ -132,40 +133,16 @@ def send_keystroke(keystroke):
   keyboard.press_and_release(keystroke)
 
 
-def send_1_keystroke():
-  ''' Send a software keypress  of '1' and release. '''
-  keyboard.press_and_release('1')
-
 @click.command()
 
-@click.option('-a', '--admin', default=False, 
-    help='Run as administrator. Required for Grid 3.')
-
 @click.option('-k', '--keystroke', default='F1',
-     help='Keystroke to send. Default is F1.')
+     help='Keystroke to send. Default is "F1". e.g. --keystroke="1" or -k "1"')
 
-def main(admin, keystroke):
+def main(keystroke):
     logging.info('software keystroke is {}'.format(keystroke))
-    logging.debug('admin flag is {}'.format(admin))
-    if is_admin():
-        logging.info('running as administrator')
-    else:
-        logging.info('not running as administrator')
-        if admin:
-            logging.info("restarting as administrator")
-            elevate()
+    target_admin_sware()
     service_microbit(keystroke)        
 
-'''
-def main():
-    if is_admin():
-        logging.info('running as admin')
-    else:
-        windll.shell32.ShellExecuteW(None, "runas", sys.executable,
-            " ".join(sys.argv), None, 0)
-        sys.exit("restarting as Administrator")
-    service_microbit()        
-'''
 
 def service_microbit(keystroke=KEYSTROKE):
     logging.info('*** looking for a microbit')
@@ -194,15 +171,15 @@ def service_microbit(keystroke=KEYSTROKE):
                     logging.info('*** shake {} detected, {} sent'.format(
                         shake_count, keystroke))
                     shake_count += 1
-                    # For testing
-                    # send_1_keystroke() 
                 mbit_serial.flushInput()
                 time.sleep(0.1)
 
 
 if __name__ == '__main__':
     # sys.argv line for testing
-    # sys.argv = ['', '--admin']
+    #sys.argv = ['','--keystroke=1']
     main()
     print('exiting')
     sys.exit()
+
+11111111111
