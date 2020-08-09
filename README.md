@@ -1,6 +1,21 @@
-# micro:bit hand_shake
+# microbit hand_shake
 
-This project enables people with physical disability to communicate through gesture using BBC micro:bits. One micro:bit is worn on the wrist and a second is connected to a laptop or communications device. When a gesture is made, the motion is detected by the micro:bit on the wrist. This micro: bit uses its radio to signal the micro:bit connected to the laptop. The micro:bit attached to the laptop then sends a trigger signal through the USB cable connected to the laptop. This signal can be used to control software on the laptop. The trigger can also be used as to control communications software, such as Smartbox's Grid software.
+This project enables people with physical disability to communicate through gesture using BBC microbits. One microbit is worn on the wrist (the transmitter) and a second is connected to a laptop or communications device (the receiver).
+
+When a gesture is made, the motion is detected by the microbit on the wrist. This microbit uses its radio to signal the microbit connected to the laptop.
+
+The microbit attached to the laptop then sends a trigger signal through the USB cable connected to the laptop. This signal is detected by a program running on the laptop which generates a simulated keystroke. This keystroke controls other software running on the laptop, such as communications software like Smartbox's Grid software.
+
+**Repository structure**
+
+transmit: software for the transmitter microbit
+
+receive: software for the receiver microbit
+
+base: software to run on the laptop that the receiver is connected to
+
+docs: photographs and files to generate this README and other project documentation
+hosted on GitHub
 
 ## Project website
 
