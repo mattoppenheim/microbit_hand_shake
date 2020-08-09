@@ -17,5 +17,5 @@ Instructions on how to set up the system are at:
 
 ## Project testing
 
-Testing the system by having it operate an LED.
+Testing the system by having a hand shake operate an LED.
 ![testing](/docs/microbit_testing.jpg)
