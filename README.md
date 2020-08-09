@@ -18,4 +18,4 @@ Instructions on how to set up the system are at:
 ## Project testing
 
 Testing the system by having it operate an LED.
-![testing](/docs/mocrobit_testing.jpg)
+![testing](/docs/microbit_testing.jpg)
