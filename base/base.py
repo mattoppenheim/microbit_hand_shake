@@ -119,6 +119,24 @@ def target_admin_sware(software=ADMIN_SOFTWARE):
     return False
 
 
+def is_admin():
+    ''' Is the script running as an Administrator? '''
+    try:
+        return windll.shell32.IsUserAnAdmin()
+    except:
+        return False
+
+        
+def send_keystroke(keystroke):
+  ''' Send a software keypress and release. '''
+  keyboard.press_and_release(keystroke)
+
+
+@click.command()
+
+@click.option('-k', '--keystroke', default='F1',
+     help='Keystroke to send. Default is "F1". e.g. --keystroke="1" or -k "1"')
+
 def main(keystroke):
     logging.info('software keystroke is {}'.format(keystroke))
     target_admin_sware()
@@ -158,7 +176,7 @@ def service_microbit(keystroke=KEYSTROKE):
 
 if __name__ == '__main__':
     # sys.argv line for testing
-    #sys.argv = ['','--keystroke=1']
+    # sys.argv = ['','--keystroke=1']
     main()
     print('exiting')
     sys.exit()
