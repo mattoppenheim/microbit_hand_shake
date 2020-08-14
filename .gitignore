@@ -1,1 +1,8 @@
 *.odt#
+*.pyc
+*/build
+*/dist
+send_keystroke.py
+*/virtual_keyboard_tests
+win32_test.py
+base_leostick.py
