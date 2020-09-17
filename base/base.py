@@ -104,7 +104,7 @@ def detect_gesture(line):
 def target_admin_sware(software=ADMIN_SOFTWARE):
     ''' Check if target software requires this script to run as Administrator. '''
     toplist, winlist = [], []
-    logging.info('Looking for software that requires elevation to Aministrator: {}'
+    logging.info('Looking for software that requires elevation to Administrator: {}'
         .format(ADMIN_SOFTWARE))
     def _enum_cb(hwnd, results):
         winlist.append((hwnd, win32gui.GetWindowText(hwnd)))
