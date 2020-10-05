@@ -2,7 +2,7 @@
  sends a trigger. This goes on the desktop as part of the hand_shake
  system. 
  https://www.seismicmatt.com/handshake/
- Windows only as the target software is Windows only.
+ Windows only. Give me a Mac and I'll make it Mac compatible too. 
  May '20 - the microbit base station is now hot pluggable.
  Aug'20 - command line options to change keystroke.
  e.g. to broadcast F2 keystroke:
@@ -43,7 +43,17 @@ logging.basicConfig(
     level=logging.INFO,
     datefmt='%H:%M:%S')
 
+def singleton(cls, *args):
+    ''' Singleton pattern. '''
+    instances = {}
+    def getinstance(*args):
+        if cls not in instances:
+            instances[cls] = cls(*args)
+        return instances[cls]
+    return getinstance
 
+# singleton pattern added to prevent multiple connections being created
+@singleton
 class Serial_Con():
     ''' Create a serial connection in a context manager. '''
     def __init__(self, comport, baud=BAUD):
@@ -145,9 +155,11 @@ def main(keystroke):
 
 def service_microbit(keystroke=KEYSTROKE):
     logging.info('*** looking for a microbit')
+    shake_count = 1
     while True:
         mbit_port = get_comport(PID_MICROBIT, VID_MICROBIT, 115200)
         logging.info('microbit found at comport: {}'.format(mbit_port))
+        # use a context manager to handle the microbit being unplugged
         with Serial_Con(mbit_port) as mbit_serial:
         # occassionally mbit_serial is not created, so is None
             if not mbit_serial:
@@ -155,10 +167,10 @@ def service_microbit(keystroke=KEYSTROKE):
                 time.sleep(0.5)
                 continue
             logging.info('waiting to detect a shake')
-            shake_count = 1
             while True:
                 try:
                     line = mbit_serial.readline().decode('utf-8')
+                # handle the microbit being unplugged
                 except serial.SerialException as e:
                     logging.info('connection broken')
                     logging.debug('exception: {}'.format(e))
