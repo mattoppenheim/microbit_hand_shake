@@ -34,3 +34,8 @@ Instructions on how to set up the system are at:
 
 Testing the system by using a hand shake to operate an LED.
 ![testing](/docs/readme_docs/microbit_testing.jpg)
+
+## micro:bit v1 and v2 compatibility
+
+micro:bit v1 was used for testing. The hex files in this repository also work
+on v2 of the micro:bit.
