@@ -6,11 +6,11 @@ When a gesture is made, the motion is detected by the microbit on the wrist. Thi
 
 The microbit attached to the laptop then sends a trigger signal through the USB cable connected to the laptop. This signal is detected by a program running on the laptop which generates a simulated keystroke. This keystroke controls other software running on the laptop, such as communications software like Smartbox's Grid software.
 
-More details and a video showing the systm in use are at:
+The project website has full details of what this project does and a video showing the system in use.
 
-<https://www.mattoppenheim.com/handshake/>
+<https://mattoppenheim.com/handshake/>
 
-**Repository structure**
+# Repository structure
 
 transmit: software for the transmitter microbit
 
@@ -19,13 +19,6 @@ receive: software for the receiver microbit
 base: software to run on the laptop that the receiver is connected to
 
 docs: photographs and files to generate this README and the setup instruction
-
-## Project website
-
-The project website has full details of what this project does and a video
-showing it in use.
-
-<https://seismicmatt.com/handshake/>
 
 ## Setup instructions
 
@@ -43,4 +36,4 @@ Testing the system by using a hand shake to operate an LED.
 ## micro:bit v1 and v2 compatibility
 
 micro:bit v1 was used for testing. The hex files in this repository also work
-on v2 of the micro:bit.
+with v2 of the micro:bit.
