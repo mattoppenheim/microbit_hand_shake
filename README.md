@@ -10,7 +10,7 @@ The project website has full details of what this project does and a video showi
 
 <https://mattoppenheim.com/handshake/>
 
-## Repository structure
+# Repository structure
 
 transmit: software for the transmitter microbit
 

@@ -1,5 +1,7 @@
 # HandShake set up instructions
 
+## Project page and instruction videos
+
 Details of the HandShake project and a video of the system in use are here: [https://www.seismicmatt.com/handshake/](https://www.seismicmatt.com/handshake/)
 
 I made some videos which complement these instructions.
@@ -16,13 +18,13 @@ The HandShake system consists of two BBC micro:bit boards. One is a transmitter,
 
 The software that runs on the communication device runs on both Windows and Linux. I realise that the communications software in common use only runs on Windows. I would like it if communications software also ran on Linux, so the least I could do was make my system run on Linux. I don’t have a Mac to test the system with. This is on my ‘to do’ list.
 
-# Safety
+## Safety
 
 The BBC micro:bit was designed to be safe to use in education with 11-12 year-olds, so has safety designed in.
 
 The transmitter board is powered by two AAA batteries in a case. Normal safety practice should be followed with the batteries – keep them dry.
 
-# Parts
+## Parts
 
 2 x BBC micro:bit boards
 
@@ -32,7 +34,7 @@ The transmitter board is powered by two AAA batteries in a case. Normal safety p
 
 1 x micro USB cable to connect the receiver micro:bit to the communications device.
 
-# Wrist holder for a microbit and AAA battery pack
+## Wrist holder for a microbit and AAA battery pack
 
 I tested out a bunch of phone and iPod armband holders. A couple of them can be used to secure a microbit and battery pack to your wrist.
 
@@ -45,7 +47,7 @@ Initially, I made my own, picture below. Details on how to make this using a £5
   <figcaption>microb:bit and AAA battery holder on a home-made wrist holder.</figcaption>
 </figure>
 
-# How to set up the system-summary
+## How to set up the system-summary
 
 The transmitter micro:bit goes on your wrist, the receiver micro:bit is connected to your PC or laptop computer using a micro USB cable.
 
@@ -55,13 +57,13 @@ The transmitter is shaken. This shake sends a signal to the receiver. This cause
 
 A piece of software running on the computer detects this message and sends a keystroke out. This keystroke can be used to control communication software running on the computer.
 
-# How to connect the micro:bit to a Windows machine and load code
+## How to connect the micro:bit to a Windows machine and load code
 
 Hopefully, you can just plug the micro:bits into the Windows machine and they will be automagically detected. A folder called MICROBIT will appear in your File Explorer. Then you can drag and drop the .hex file containing the code for the micro:bit onto this folder and the board will load the code in about 10s, merrily flashing a little LED. Details below on what hex file goes where.
 
 If you need more detailed instructions on how to connect a micro:bit to a Windows machine and how to load code onto it, please look at my blog post: [https://www.seismicmatt.com/2020/04/27/connecting-the-bbc-microbit-to-windows-and-adding-code-to-it/](https://www.seismicmatt.com/2020/04/27/connecting-the-bbc-microbit-to-windows-and-adding-code-to-it/)
 
-# Downloading the project code
+## Downloading the project code
 
 Go to the GitHub site linked at the top of the page. You can download each of the files detailed in the following sections by right clicking and doing ‘save-as’ or you can download the whole repository as a single zip file and unpack it on to your machine by clicking on the green ‘Clone or download’ button then selecting ‘Download ZIP’. See the picture below.
 
@@ -70,7 +72,7 @@ Go to the GitHub site linked at the top of the page. You can download each of th
   <figcaption>Downloading the project code from GitHub.</figcaption>
 </figure>
 
-# Programming the micro:bits with hex files
+## Programming the micro:bits with hex files
 
 Each micro:bit needs to be programmed using a .hex file.
 
@@ -97,11 +99,11 @@ The code for the receiver micro:bit is called receive.hex. This can be downloade
 
 Program each of the micro:bits separately – only have one at a time plugged into your computer. Otherwise, the system can't tell which is which.
 
-# Installing the software onto your computer
+## Installing the software onto your computer
 
 The software that goes onto your computer is in the base folder of the GitHub directory. This stands for base station. I couldn’t think of a better name. This software monitors the attached receiver microbit for a trigger and then simulates pressing the F1 key on your keyboard. You can adjust the keystroke that is sent out when a shake is detected if you do not want to use F1. Details on how to do this are below.
 
-## Windows
+### Windows
 
 The file you need is called `base.exe` which is in the base directory of the GitHub repository. This is an executable. To have this automatically run when the computer starts, it needs to be placed in the Windows startup folder. To find this folder, type shell:startup in the File Explorer, as shown in the screenshot below.
 
@@ -112,7 +114,7 @@ The file you need is called `base.exe` which is in the base directory of the Git
 
 Place the file called base.exe into the folder that typeing shell:startup took you to. After doing this, base.exe will automatically run when you start Windows.
 
-# Running base.exe
+## Running base.exe
 
 Double click on the base.exe program in a File Explorer to kick it off, or run it through a console.
 
@@ -137,7 +139,7 @@ When you next double click on base.exe, it will run without the warning window.
 
 The receiver micro:bit can be plugged and unplugged without crashing the base.exe program when it is running. You can start the base.exe program with the receiver micro:bit plugged in or not plugged in. If the receiver is not plugged in, the program will wait for it to be plugged in and then continue. This is called being ‘hot-swappable’ and nobody is more surprised than me that I got this to work.
 
-# Generating other keystrokes
+## Generating other keystrokes
 
 By default, F1 key presses are generated by the base.exe program. Other keystrokes can be sent instead.
 
@@ -162,7 +164,7 @@ Options:
   
 ```
 
-# Use
+## Use
 
 
 As you move the transmitter microbit, you will see bright LEDs light and turn off. The harder you shake the board, the more LEDs will light up. The LEDs go off as the motion of the board slows down. See the picture below. If you look closely at the transmitter board, you will also see some faint LEDs. The number of faint LEDs stays the same as you move the board around. The number of faint LEDs lit shows the sensitivity of the board. The more faint LEDs there are, the lower the sensitivity, so the harder the board has to be shaken to cause a trigger to be sent to the computer.
@@ -184,7 +186,7 @@ As you move the transmitter microbit, you will see bright LEDs light and turn of
    <figcaption>Receiver microb:bit is turned on and standing by.</figcaption>
 </figure>
 
-# How to alter the shake detection sensitivity 
+## How to alter the shake detection sensitivity 
 
 The micro:bit has two buttons, labelled ‘a’ and ‘b’. You can alter the sensitivity of the system by using the buttons on either the transmitter or the receiver. Or both. This means that the transmitter can be in use and you can alter the shake detection threshold without having to interfere with whoever is using it.
 
@@ -206,6 +208,6 @@ Pushing the button labelled ‘b’ will make a ‘+’ symbol appear on the LED
 
 The micro:bit radio is set to use one of the 65,000 channel and group combinations available to it. Two micro:bit handshake systems could interfere. Fixing this interference requires changing a couple of lines of code in the transmitter and receiver scripts for one of the systems, to have it use a different channel or group. If you are using multiple handshake systems in the same area, send me an email and I will send out some code with a different channel and group configuration. Or, as the microbit is deployed to year 7 in UK schools – ask a friendly 12-year old to do this! All of the code is on the GitHub site; the link at the start of these instructions.
 
-# Contact
+## Contact
 
 matt.oppenheim@gmail.com
