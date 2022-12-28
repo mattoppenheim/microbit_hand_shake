@@ -2,7 +2,6 @@
 update shake threshold to shake_detector """
 
 from microbit import *
-import radio
 
 radio.config(address=0x101000, group=40, channel=2, data_rate=radio.RATE_1MBIT)
 print("shake receive started")
@@ -36,16 +35,22 @@ def shake_detected():
     pause()
 
 
+def update_status():
+    ''' Update micro:bit status in main superloop. '''
+    if button_a.was_pressed():
+        decrease_sensitivity()
+    if button_b.was_pressed():
+        increase_sensitivity()
+    incoming = radio.receive()
+    sleep(10)
+    if incoming == "shake":
+        shake_detected()
+
 def main():
     while True:
-        if button_b.was_pressed():
-            increase_sensitivity()
-        if button_a.was_pressed():
-            decrease_sensitivity()
-        incoming = radio.receive()
-        sleep(10)
-        if incoming == "shake":
-            shake_detected()
+        # helper function to enable testing
+        update_status()
 
 
-main()
+if __name__ == '__main__':
+    main()
