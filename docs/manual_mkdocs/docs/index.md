@@ -12,7 +12,7 @@ How to operate the system is here: [https://youtu.be/MSOVIbfd228](https://youtu.
 
 This site details how to set up and operate the system and complements the videos linked above. Have a look at the project page before reading these.
 
-All of the code for this project can be found on my GitHub site: [https://github.com/hardwaremonkey/microbit_hand_shake](https://github.com/hardwaremonkey/microbit_hand_shake)
+All of the code for this project can be found on my GitHub site: [https://github.com/mattoppenheim/microbit_hand_shake](https://github.com/mattoppenheim/microbit_hand_shake)
 
 The HandShake system consists of two BBC micro:bit boards. One is a transmitter, which is worn on the user’s wrist. The second is the receiver, which is attached to the communication device using a micro USB cable. The transmitter detects a gesture and then communicates this to the receiver micro:bit. The receiver says ‘There’s been a gesture!’ to the communications device. Software running on the communications device then emulates the F1 (function key 1) being pressed and released. Grid 3 reacts to this as if a physical keyboard had just had the F1 key pressed and released.
 
