@@ -2,6 +2,7 @@
 update shake threshold to shake_detector """
 
 from microbit import *
+import radio
 
 radio.config(address=0x101000, group=40, channel=2, data_rate=radio.RATE_1MBIT)
 print("shake receive started")
