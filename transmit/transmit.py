@@ -1,8 +1,15 @@
 ''' Shake detector.
-Transmits a detection to the receiver.
-https://www.seismicmatt.com/handshake/
+When the board is shaken harder than an adjustable threshold:
+    Transmit a shake detection to the receiver by radio.
+    Activate haptic buzzer on GPIO 2.
+Threshold value for shake detection adjusted using a/b buttons.
+button a: makes board more sensitive, lower shake needed to activate.
+button b: makes board less sensitive, harder shake needed to activate.
+Threshold value stored in threshold_value.txt.
+
+https://www.mattoppenheim.com/handshake/
 Matthew Oppenheim
-v1.0 May 2020 '''
+Last update: 2023_06_28 '''
 
 from microbit import *
 import radio
@@ -18,9 +25,9 @@ MAX_THRESH = 25
 THRESH_BRIGHT = '5'
 SAMPLES = 3
 THRESHOLD = 13
-THRESH_FILE = 'thresh_val.txt'
+THRESHOLD_VALUE = 'threshold_value.txt'
 radio.config(address=0x101000, group=40, channel=2, data_rate=radio.RATE_1MBIT)
-print('starting accelerometer monitor')
+print('monitoring accelerometer')
 
 def average(list):
     ''' return the average of <list> '''
@@ -30,9 +37,11 @@ def average(list):
 
 def detection():
     print('*** shake detected ***')
+    haptic('on')
     display.show(Image.CHESSBOARD)
     radio.send('shake')
     sleep(200)
+    haptic('off')
 
 
 def increase_sensitivity(threshold, inc):
@@ -47,6 +56,14 @@ def decrease_sensitivity(threshold, inc):
     threshold = limit(threshold-inc, MAX_THRESH)
     sleep(250)
     return threshold
+
+
+def haptic(state):
+    ''' Turn haptic on/off '''
+    if (state == 'on'):
+        pin2.write_digital(1)
+        return
+    pin2.write_digital(0)
 
 
 def initialise_list():
@@ -92,13 +109,15 @@ def write_file(filename, value):
 def main():
     acc_list = initialise_list()
     radio.on()
+    # initialise haptic feed control pin to be low
+    pin2.write_digital(0)
     try:
-        thresh = int(read_file(THRESH_FILE))
+        thresh = int(read_file(THRESHOLD_VALUE))
         print('threshold from file: {}'.format(thresh))
     except Exception as e:
-        print('couldn\'t find threshold file: {} {}'.format(THRESH_FILE, e))
+        print('couldn\'t find threshold file: {} {}'.format(THRESHOLD_VALUE, e))
         thresh = THRESHOLD
-        write_file(THRESH_FILE, THRESHOLD)
+        write_file(THRESHOLD_VALUE, THRESHOLD)
         print('created threshold file with value: {}'.format(THRESHOLD))
     while True:
         incoming = radio.receive()
@@ -114,11 +133,11 @@ def main():
             acc_list = initialise_list()
         if button_a.was_pressed() or incoming == 'decrease':
             thresh = (decrease_sensitivity(thresh, INCREMENT))
-            write_file(THRESH_FILE, thresh)
+            write_file(THRESHOLD_VALUE, thresh)
             print('threshold: {}'.format(thresh))
         if button_b.was_pressed() or incoming == 'increase':
             thresh = (increase_sensitivity(thresh, INCREMENT))
-            write_file(THRESH_FILE, thresh)
+            write_file(THRESHOLD_VALUE, thresh)
             print('threshold: {}'.format(thresh))
         display.show(leds_string2(acc, thresh))
         sleep(10)
