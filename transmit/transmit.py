@@ -1,7 +1,8 @@
 ''' Shake detector.
 When the board is shaken harder than an adjustable threshold:
-    Transmit a shake detection to the receiver by radio.
+    Transmit a message to the receiver by radio.
     Activate haptic buzzer on GPIO 2.
+    Play tune.
 Threshold value for shake detection adjusted using a/b buttons.
 button a: makes board more sensitive, lower shake needed to activate.
 button b: makes board less sensitive, harder shake needed to activate.
@@ -9,9 +10,10 @@ Threshold value stored in threshold_value.txt.
 
 https://www.mattoppenheim.com/handshake/
 Matthew Oppenheim
-Last update: 2023_06_28 '''
+Last update: 2023_07_03 '''
 
 from microbit import *
+import music
 import radio
 
 ACC_DIVISOR = 100000
@@ -26,8 +28,20 @@ THRESH_BRIGHT = '5'
 SAMPLES = 3
 THRESHOLD = 13
 THRESHOLD_VALUE = 'threshold_value.txt'
+
+# Frequencies to play for sound prompt.
+# C#
+FREQ_3 = 139
+
+# E
+FREQ_2 = 165
+
+# A
+FREQ_1 = 221
+
 radio.config(address=0x101000, group=40, channel=2, data_rate=radio.RATE_1MBIT)
 print('monitoring accelerometer')
+
 
 def average(list):
     ''' return the average of <list> '''
@@ -40,7 +54,10 @@ def detection():
     haptic('on')
     display.show(Image.CHESSBOARD)
     radio.send('shake')
-    sleep(200)
+    # Play three tones, takes 210ms
+    play_tone(FREQ_1)
+    play_tone(FREQ_2)
+    play_tone(FREQ_3)
     haptic('off')
 
 
@@ -92,6 +109,12 @@ def leds_string2(bright, faint):
                            for i in range(0, len(leds_string), 5))
     leds_image = Image(leds_string + ':')
     return leds_image
+
+
+def play_tone(frequency):
+    ''' Play frequency for 70ms. '''
+    # pitch(frequency, ms)
+    music.pitch(frequency, 70)
 
 
 def read_file(filename):
