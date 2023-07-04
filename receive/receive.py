@@ -7,6 +7,7 @@ This is used to close then open a relay, which acts as a switch.
 The buttons act to increase and decrease the shake detection threshold on the transmitter unit.
 button a: makes board more sensitive, lower shake needed to activate.
 button b: makes board less sensitive, harder shake needed to activate.
+button a and button b: activates switch.
 Threshold value stored in threshold_value.txt.
 last update: 2023_06_28 Matthew Oppenheim
 """
@@ -50,10 +51,15 @@ def shake_detected():
 
 def update_status():
     ''' Update micro:bit status in main superloop. '''
+    if (button_a.is_pressed() and button_b.is_pressed()):
+        shake_detected()
+        return
     if button_a.was_pressed():
         decrease_sensitivity()
+        return
     if button_b.was_pressed():
         increase_sensitivity()
+        return
     incoming = radio.receive()
     sleep(10)
     if incoming == "shake":
