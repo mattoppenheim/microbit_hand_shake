@@ -10,22 +10,26 @@ Threshold value stored in threshold_value.txt.
 
 https://www.mattoppenheim.com/handshake/
 Matthew Oppenheim
-Last update: 2023_07_03 '''
+Last update: 2023_07_06 '''
 
 from microbit import *
 import music
 import radio
 
 ACC_DIVISOR = 100000
+
 # Intensity of the LEDs
 BRIGHT = '9'
 FAINT = '4'
+
+# number of accelerometer values to average over
+FILTER_LENGTH = 10
+
 # How many LEDs to turn on or off per button push
 INCREMENT = 1
 LEDS = 25
 MAX_THRESH = 25
 THRESH_BRIGHT = '5'
-SAMPLES = 3
 THRESHOLD = 13
 THRESHOLD_VALUE = 'threshold_value.txt'
 
@@ -84,7 +88,7 @@ def haptic(state):
 
 
 def initialise_list():
-    list = [1] * SAMPLES
+    list = [1] * FILTER_LENGTH
     return list
 
 
@@ -148,9 +152,9 @@ def main():
         y = accelerometer.get_y()
         z = accelerometer.get_z()
         acc = int((x**2 + y**2 + z**2)/ACC_DIVISOR)
-        # print(x, y, z, acc)
-        acc_list.pop(0)
+        # limit the length of acc_list
         acc_list.append(acc)
+        acc_list = acc_list[-FILTER_LENGTH:]
         if average(acc_list) > thresh:
             detection()
             acc_list = initialise_list()
