@@ -7,10 +7,11 @@ Threshold value for shake detection adjusted using a/b buttons.
 button a: makes board more sensitive, lower shake needed to activate.
 button b: makes board less sensitive, harder shake needed to activate.
 Threshold value stored in threshold_value.txt.
-
+There's a bug in the music library. The micro:bit freezes after a time.
+Put a reset function into the main loop to compensate.
 https://www.mattoppenheim.com/handshake/
 Matthew Oppenheim
-Last update: 2023_07_06 '''
+Last update: 2023_08_03 '''
 
 from microbit import *
 import music
@@ -32,6 +33,9 @@ MAX_THRESH = 25
 THRESH_BRIGHT = '5'
 THRESHOLD = 13
 THRESHOLD_VALUE = 'threshold_value.txt'
+
+# Reset the board after this numer of milliseconds due to the music library bug
+TIMEOUT = 10000
 
 # Frequencies to play for sound prompt.
 # C#
@@ -88,8 +92,7 @@ def haptic(state):
 
 
 def initialise_list():
-    list = [1] * FILTER_LENGTH
-    return list
+    return [1] * FILTER_LENGTH
 
 
 def limit(val, limit):
@@ -127,6 +130,12 @@ def read_file(filename):
         return read_value
 
 
+def startup():
+    ''' Display a pattern '''
+    display.show(Image.YES)
+    sleep(100)
+
+
 def write_file(filename, value):
     with open(filename, 'w') as my_file:
         my_file.write(str(value))
@@ -134,9 +143,10 @@ def write_file(filename, value):
 
 
 def main():
+    # startup()
     acc_list = initialise_list()
     radio.on()
-    # initialise haptic feed control pin to be low
+    # initialise haptic feed control pin low
     pin2.write_digital(0)
     try:
         thresh = int(read_file(THRESHOLD_VALUE))
@@ -152,9 +162,8 @@ def main():
         y = accelerometer.get_y()
         z = accelerometer.get_z()
         acc = int((x**2 + y**2 + z**2)/ACC_DIVISOR)
-        # limit the length of acc_list
+        acc_list.pop(0)
         acc_list.append(acc)
-        acc_list = acc_list[-FILTER_LENGTH:]
         if average(acc_list) > thresh:
             detection()
             acc_list = initialise_list()
@@ -167,6 +176,10 @@ def main():
             write_file(THRESHOLD_VALUE, thresh)
             print('threshold: {}'.format(thresh))
         display.show(leds_string2(acc, thresh))
+        # There's a bug in the music library. The micro:bit freezes after a time.
+        # Reset the board to compensate. Stopgap fix.
+        if running_time() > TIMEOUT:
+            reset()
         sleep(10)
 
 
