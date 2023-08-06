@@ -6,12 +6,12 @@ When the board is shaken harder than an adjustable threshold:
 Threshold value for shake detection adjusted using a/b buttons.
 button a: makes board more sensitive, lower shake needed to activate.
 button b: makes board less sensitive, harder shake needed to activate.
+Use https://python.microbit.org/v/3 to program, not uflash or the board
+randomly freezes
 Threshold value stored in threshold_value.txt.
-There's a bug in the music library. The micro:bit freezes after a time.
-Put a reset function into the main loop to compensate.
 https://www.mattoppenheim.com/handshake/
 Matthew Oppenheim
-Last update: 2023_08_03 '''
+Last update: 2023_08_06 '''
 
 from microbit import *
 import music
@@ -146,6 +146,7 @@ def main():
     # startup()
     acc_list = initialise_list()
     radio.on()
+    set_volume(256)
     # initialise haptic feed control pin low
     pin2.write_digital(0)
     try:
@@ -176,10 +177,6 @@ def main():
             write_file(THRESHOLD_VALUE, thresh)
             print('threshold: {}'.format(thresh))
         display.show(leds_string2(acc, thresh))
-        # There's a bug in the music library. The micro:bit freezes after a time.
-        # Reset the board to compensate. Stopgap fix.
-        if running_time() > TIMEOUT:
-            reset()
         sleep(10)
 
 
